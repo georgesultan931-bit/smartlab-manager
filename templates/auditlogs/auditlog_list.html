@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="h3 mb-3">Audit Logs</h1>
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-striped mb-0">
+            <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Model</th><th>Description</th></tr></thead>
+            <tbody>
+                {% for log in page_obj %}
+                <tr>
+                    <td>{{ log.timestamp|date:'Y-m-d H:i' }}</td>
+                    <td>{{ log.user|default:'System' }}</td>
+                    <td>{{ log.get_action_display }}</td>
+                    <td>{{ log.model_name }}</td>
+                    <td>{{ log.description }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center text-muted py-4">No logs yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% include 'partials/pagination.html' with page_obj=page_obj %}
+{% endblock %}

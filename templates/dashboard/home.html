@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <div>
+        <h2 class="fw-bold mb-1">Dashboard</h2>
+        <p class="text-muted mb-0">Monitor patients, requests, and lab activity from one place.</p>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a href="{% url 'patients:add' %}" class="btn btn-primary">
+            + Add Patient
+        </a>
+        <a href="{% url 'tests:create' %}" class="btn btn-success">
+            + New Test Request
+        </a>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2">Total Patients</p>
+                        <h2 class="fw-bold mb-0">{{ patients_count }}</h2>
+                    </div>
+                    <div class="bg-primary-subtle text-primary rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 48px; height: 48px; font-size: 20px;">
+                        👤
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 pt-0">
+                <a href="{% url 'patients:list' %}" class="text-decoration-none small fw-semibold">View Patients →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2">Test Requests</p>
+                        <h2 class="fw-bold mb-0">{{ requests_count }}</h2>
+                    </div>
+                    <div class="bg-dark-subtle text-dark rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 48px; height: 48px; font-size: 20px;">
+                        🧪
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 pt-0">
+                <a href="{% url 'tests:list' %}" class="text-decoration-none small fw-semibold">View Requests →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2">Pending</p>
+                        <h2 class="fw-bold mb-0 text-warning">{{ pending_count }}</h2>
+                    </div>
+                    <div class="bg-warning-subtle text-warning rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 48px; height: 48px; font-size: 20px;">
+                        ⏳
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 pt-0">
+                <a href="{% url 'tests:list' %}" class="text-decoration-none small fw-semibold">Review Pending →</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="text-muted mb-2">Completed</p>
+                        <h2 class="fw-bold mb-0 text-success">{{ completed_count }}</h2>
+                    </div>
+                    <div class="bg-success-subtle text-success rounded-circle d-flex align-items-center justify-content-center"
+                         style="width: 48px; height: 48px; font-size: 20px;">
+                        ✅
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white border-0 pt-0">
+                <a href="{% url 'results:list' %}" class="text-decoration-none small fw-semibold">View Results →</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0 pb-0">
+                <h5 class="fw-bold mb-1">Quick Actions</h5>
+                <p class="text-muted small mb-0">Move faster through the common lab workflow.</p>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="{% url 'patients:add' %}" class="text-decoration-none">
+                            <div class="border rounded-4 p-3 h-100 bg-light">
+                                <h6 class="fw-bold mb-1">Add Patient</h6>
+                                <p class="text-muted small mb-0">Register a new patient before creating a request.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="{% url 'tests:create' %}" class="text-decoration-none">
+                            <div class="border rounded-4 p-3 h-100 bg-light">
+                                <h6 class="fw-bold mb-1">Create Test Request</h6>
+                                <p class="text-muted small mb-0">Open a new request and assign the needed test.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="{% url 'results:list' %}" class="text-decoration-none">
+                            <div class="border rounded-4 p-3 h-100 bg-light">
+                                <h6 class="fw-bold mb-1">Manage Results</h6>
+                                <p class="text-muted small mb-0">Review completed work and recorded results.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <a href="{% url 'auditlogs:list' %}" class="text-decoration-none">
+                            <div class="border rounded-4 p-3 h-100 bg-light">
+                                <h6 class="fw-bold mb-1">Audit Logs</h6>
+                                <p class="text-muted small mb-0">Track actions and maintain accountability.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-white border-0 pb-0">
+                <h5 class="fw-bold mb-1">System Summary</h5>
+                <p class="text-muted small mb-0">Current operating state of the lab workflow.</p>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Patients</span>
+                    <span class="fw-semibold">{{ patients_count }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Requests</span>
+                    <span class="fw-semibold">{{ requests_count }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom">
+                    <span class="text-muted">Pending</span>
+                    <span class="fw-semibold text-warning">{{ pending_count }}</span>
+                </div>
+                <div class="d-flex justify-content-between py-2">
+                    <span class="text-muted">Completed</span>
+                    <span class="fw-semibold text-success">{{ completed_count }}</span>
+                </div>
+
+                <hr>
+
+                <div class="alert alert-info mb-0">
+                    Keep pending requests low and completed results rising. That is the real health signal of this system.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

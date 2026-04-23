@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Results</h1>
+</div>
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead><tr><th>Patient</th><th>Test</th><th>Value</th><th>Entered By</th><th>Date</th><th></th></tr></thead>
+            <tbody>
+                {% for item in results %}
+                <tr>
+                    <td>{{ item.test_request.patient.full_name }}</td>
+                    <td>{{ item.test_request.test_type.name }}</td>
+                    <td>{{ item.result_value }}</td>
+                    <td>{{ item.entered_by|default:'-' }}</td>
+                    <td>{{ item.entered_at|date:'Y-m-d H:i' }}</td>
+                    <td>
+                        <a class="btn btn-sm btn-outline-primary" href="{% url 'results:detail' item.pk %}">View</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-4">No results yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

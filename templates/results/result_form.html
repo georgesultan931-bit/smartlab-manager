@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow-sm col-lg-8 mx-auto">
+    <div class="card-body p-4">
+        <h1 class="h3 mb-2">Save Result</h1>
+        <p class="text-muted">{{ test_request.patient.full_name }} — {{ test_request.test_type.name }}</p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-primary">Save Result</button>
+            <a class="btn btn-outline-secondary" href="{% url 'tests:list' %}">Back</a>
+        </form>
+    </div>
+</div>
+{% endblock %}
