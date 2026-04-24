@@ -1,48 +1,56 @@
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect, render
-from apps.common import create_audit_log
-from .forms import PatientForm
 from .models import Patient
+from .forms import PatientForm
 
 
-@login_required
+# LIST + SEARCH
 def patient_list(request):
     query = request.GET.get('q', '')
+
     patients = Patient.objects.all()
+
     if query:
-        patients = patients.filter(Q(full_name__icontains=query) | Q(patient_number__icontains=query) | Q(phone__icontains=query))
-    paginator = Paginator(patients, 10)
-    page_obj = paginator.get_page(request.GET.get('page'))
-    return render(request, 'patients/patient_list.html', {'page_obj': page_obj, 'query': query})
+        patients = patients.filter(
+            Q(full_name__icontains=query) |
+            Q(phone__icontains=query)
+        )
+
+    return render(request, 'patients/list.html', {
+        'patients': patients,
+        'query': query
+    })
 
 
-@login_required
+# CREATE
 def patient_create(request):
-    form = PatientForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        patient = form.save()
-        create_audit_log(user=request.user, action='create', instance=patient, description=f'Created patient {patient.full_name}')
-        messages.success(request, 'Patient registered successfully.')
-        return redirect('patients:list')
-    return render(request, 'patients/patient_form.html', {'form': form, 'title': 'Register Patient'})
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('patients:list')
+    else:
+        form = PatientForm()
+
+    return render(request, 'patients/form.html', {'form': form})
 
 
-@login_required
-def patient_update(request, pk):
-    patient = get_object_or_404(Patient, pk=pk)
-    form = PatientForm(request.POST or None, instance=patient)
-    if request.method == 'POST' and form.is_valid():
-        patient = form.save()
-        create_audit_log(user=request.user, action='update', instance=patient, description=f'Updated patient {patient.full_name}')
-        messages.success(request, 'Patient updated successfully.')
-        return redirect('patients:detail', pk=patient.pk)
-    return render(request, 'patients/patient_form.html', {'form': form, 'title': 'Edit Patient'})
-
-
-@login_required
+# DETAIL
 def patient_detail(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
-    return render(request, 'patients/patient_detail.html', {'patient': patient})
+    return render(request, 'patients/detail.html', {'patient': patient})
+
+
+# UPDATE
+def patient_update(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+
+    if request.method == 'POST':
+        form = PatientForm(request.POST, instance=patient)
+        if form.is_valid():
+            form.save()
+            return redirect('patients:list')
+    else:
+        form = PatientForm(instance=patient)
+
+    return render(request, 'patients/form.html', {'form': form})
