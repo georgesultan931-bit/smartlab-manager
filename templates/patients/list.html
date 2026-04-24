@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Patients</h2>
+
+<form method="get" class="mb-3">
+    <input type="text" name="q" placeholder="Search patient" value="{{ query }}">
+    <button type="submit">Search</button>
+</form>
+
+<a href="{% url 'patients:create' %}" class="btn btn-primary mb-3">+ Add Patient</a>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Patient No.</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </tr>
+
+    {% for patient in patients %}
+    <tr>
+        <td>{{ patient.full_name }}</td>
+        <td>{{ patient.patient_number }}</td>
+        <td>{{ patient.phone }}</td>
+        <td>
+            <a href="{% url 'patients:detail' patient.pk %}">View</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No patients found.</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
