@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 
@@ -57,6 +58,9 @@ def patient_update(request, pk):
 
 
 def patient_delete(request, pk):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You are not allowed to delete patients.")
+
     patient = get_object_or_404(Patient, pk=pk)
 
     if request.method == 'POST':

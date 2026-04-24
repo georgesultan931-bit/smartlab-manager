@@ -11,10 +11,15 @@
         <p><strong>Phone:</strong> {{ patient.phone }}</p>
         <p><strong>Registered:</strong> {{ patient.created_at|date:"M d, Y" }}</p>
 
-        <a href="{% url 'patients:update' patient.pk %}" class="btn btn-primary">Edit</a>
-        <a href="{% url 'patients:delete' patient.pk %}" class="btn btn-danger">Delete</a>
-        <a href="{% url 'patients:list' %}" class="btn btn-secondary">Back</a>
+        <div class="mt-3 d-flex gap-2">
+            <a href="{% url 'patients:update' patient.pk %}" class="btn btn-primary">Edit</a>
 
+            {% if request.user.is_superuser %}
+            <a href="{% url 'patients:delete' patient.pk %}" class="btn btn-danger">Delete</a>
+            {% endif %}
+
+            <a href="{% url 'patients:list' %}" class="btn btn-secondary">Back</a>
+        </div>
     </div>
 </div>
 {% endblock %}
