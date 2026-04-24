@@ -1,19 +1,20 @@
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
+
 from .models import Patient
 from .forms import PatientForm
 
 
-# LIST + SEARCH
 def patient_list(request):
     query = request.GET.get('q', '')
-
     patients = Patient.objects.all()
 
     if query:
         patients = patients.filter(
             Q(full_name__icontains=query) |
-            Q(phone__icontains=query)
+            Q(phone__icontains=query) |
+            Q(patient_number__icontains=query)
         )
 
     return render(request, 'patients/list.html', {
@@ -22,12 +23,12 @@ def patient_list(request):
     })
 
 
-# CREATE
 def patient_create(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Patient added successfully.")
             return redirect('patients:list')
     else:
         form = PatientForm()
@@ -35,13 +36,11 @@ def patient_create(request):
     return render(request, 'patients/form.html', {'form': form})
 
 
-# DETAIL
 def patient_detail(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
     return render(request, 'patients/detail.html', {'patient': patient})
 
 
-# UPDATE
 def patient_update(request, pk):
     patient = get_object_or_404(Patient, pk=pk)
 
@@ -49,8 +48,20 @@ def patient_update(request, pk):
         form = PatientForm(request.POST, instance=patient)
         if form.is_valid():
             form.save()
+            messages.success(request, "Patient updated successfully.")
             return redirect('patients:list')
     else:
         form = PatientForm(instance=patient)
 
     return render(request, 'patients/form.html', {'form': form})
+
+
+def patient_delete(request, pk):
+    patient = get_object_or_404(Patient, pk=pk)
+
+    if request.method == 'POST':
+        patient.delete()
+        messages.success(request, "Patient deleted successfully.")
+        return redirect('patients:list')
+
+    return render(request, 'patients/confirm_delete.html', {'patient': patient})

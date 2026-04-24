@@ -12,7 +12,9 @@
         <p><strong>Registered:</strong> {{ patient.created_at|date:"M d, Y" }}</p>
 
         <a href="{% url 'patients:update' patient.pk %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'patients:delete' patient.pk %}" class="btn btn-danger">Delete</a>
         <a href="{% url 'patients:list' %}" class="btn btn-secondary">Back</a>
+
     </div>
 </div>
 {% endblock %}
