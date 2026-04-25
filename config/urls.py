@@ -5,7 +5,11 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('apps.accounts.urls')),
+
+    # AUTH (login, logout, OTP)
+    path('accounts/', include(('apps.accounts.urls', 'accounts'), namespace='accounts')),
+
+    # MAIN APP
     path('dashboard/', include(('apps.dashboard.urls', 'dashboard'), namespace='dashboard')),
     path('patients/', include(('apps.patients.urls', 'patients'), namespace='patients')),
     path('tests/', include(('apps.tests.urls', 'tests'), namespace='tests')),

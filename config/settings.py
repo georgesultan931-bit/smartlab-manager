@@ -108,6 +108,11 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.User'
 
-LOGIN_URL = 'login'
+# =========================
+# AUTH SETTINGS (FIXED)
+# =========================
+LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+AT_USERNAME = config('AT_USERNAME', default='sandbox')
+AT_API_KEY = config('AT_API_KEY', default='')
