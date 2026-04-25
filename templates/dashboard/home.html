@@ -14,6 +14,7 @@
     </div>
 </div>
 
+<!-- STATS -->
 <div class="row g-4 mb-4">
     <div class="col-md-6 col-xl-3">
         <div class="card shadow-sm">
@@ -52,6 +53,7 @@
     </div>
 </div>
 
+<!-- TODAY -->
 <div class="row g-4 mb-4">
     <div class="col-md-6">
         <div class="card shadow-sm">
@@ -73,6 +75,8 @@
 </div>
 
 <div class="row g-4">
+
+    <!-- RECENT REQUESTS -->
     <div class="col-lg-8">
         <div class="card shadow-sm">
             <div class="card-header bg-white">
@@ -80,7 +84,7 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-hover mb-0">
+                <table class="table table-hover mb-0 align-middle">
                     <thead class="table-light">
                         <tr>
                             <th>Patient</th>
@@ -117,12 +121,17 @@
             </div>
 
             <div class="card-footer bg-white">
-                <a href="{% url 'tests:list' %}" class="btn btn-sm btn-outline-primary">View All Requests</a>
+                <a href="{% url 'tests:list' %}" class="btn btn-sm btn-outline-primary">
+                    View All Requests
+                </a>
             </div>
         </div>
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="col-lg-4">
+
+        <!-- TOP TEST TYPES -->
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-white">
                 <h5 class="fw-bold mb-0">Top Test Types</h5>
@@ -130,27 +139,50 @@
 
             <div class="card-body">
                 {% for item in test_breakdown %}
-                    <div class="d-flex justify-content-between border-bottom py-2">
-                        <span>{{ item.test_type__name|default:"Unknown" }}</span>
-                        <strong>{{ item.total }}</strong>
-                    </div>
+                <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    <span class="fw-semibold">{{ item.test_type__name|default:"Unknown" }}</span>
+                    <span class="badge bg-primary">{{ item.total }}</span>
+                </div>
                 {% empty %}
-                    <p class="text-muted">No test data available.</p>
+                <p class="text-muted">No test data available.</p>
                 {% endfor %}
             </div>
         </div>
 
+        <!-- QUICK ACTIONS -->
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="fw-bold">Quick Actions</h5>
-                <div class="d-grid gap-2 mt-3">
-                    <a href="{% url 'patients:list' %}" class="btn btn-outline-primary">Patients</a>
-                    <a href="{% url 'tests:list' %}" class="btn btn-outline-success">Requests</a>
-                    <a href="{% url 'results:list' %}" class="btn btn-outline-dark">Results</a>
-                    <a href="{% url 'auditlogs:list' %}" class="btn btn-outline-secondary">Logs</a>
+                <h5 class="fw-bold mb-3">Quick Actions</h5>
+
+                <div class="row g-2">
+                    <div class="col-6">
+                        <a href="{% url 'patients:list' %}" class="btn btn-outline-primary w-100">
+                            👤 Patients
+                        </a>
+                    </div>
+
+                    <div class="col-6">
+                        <a href="{% url 'tests:list' %}" class="btn btn-outline-success w-100">
+                            🧪 Requests
+                        </a>
+                    </div>
+
+                    <div class="col-6">
+                        <a href="{% url 'results:list' %}" class="btn btn-outline-dark w-100">
+                            📄 Results
+                        </a>
+                    </div>
+
+                    <div class="col-6">
+                        <a href="{% url 'auditlogs:list' %}" class="btn btn-outline-secondary w-100">
+                            📊 Logs
+                        </a>
+                    </div>
                 </div>
+
             </div>
         </div>
+
     </div>
 </div>
 
