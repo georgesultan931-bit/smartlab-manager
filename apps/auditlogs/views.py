@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
+from django.http import HttpResponseForbidden
 from django.shortcuts import render
+
 from .models import AuditLog
 
 
 @login_required
-def auditlog_list(request):
-    logs = AuditLog.objects.select_related('user').all()
-    paginator = Paginator(logs, 20)
-    page_obj = paginator.get_page(request.GET.get('page'))
-    return render(request, 'auditlogs/auditlog_list.html', {'page_obj': page_obj})
+def audit_log_list(request):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("Access denied")
+
+    logs = AuditLog.objects.select_related('user').order_by('-created_at')[:50]
+    return render(request, 'auditlogs/list.html', {'logs': logs})

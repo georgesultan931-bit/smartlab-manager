@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        h2 { text-align: center; }
+        .section { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Lab Test Report</h2>
+
+<div class="section">
+    <strong>Patient:</strong> {{ result.test_request.patient.full_name }}<br>
+    <strong>Patient No:</strong> {{ result.test_request.patient.patient_number }}
+</div>
+
+<div class="section">
+    <strong>Test:</strong> {{ result.test_request.test_type.name }}<br>
+    <strong>Status:</strong> {{ result.test_request.get_status_display }}
+</div>
+
+<div class="section">
+    <strong>Result:</strong><br>
+    {{ result.result_text }}
+</div>
+
+<div class="section">
+    <strong>Date:</strong> {{ result.entered_at|date:"Y-m-d H:i" }}
+</div>
+
+</body>
+</html>
