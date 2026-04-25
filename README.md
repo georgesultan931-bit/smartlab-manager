@@ -4,11 +4,21 @@
 https://smartlab-manager-1.onrender.com
 
 ## Overview
+## 🚀 SmartLab — Laboratory Management System
 
-SmartLab Manager solves the problem of managing patient records, test workflows, and lab results in small clinics and labs that still rely on manual or scattered systems.
+A production-ready Django-based system for managing lab operations, including patients, test requests, results, audit logs, and PDF report generation.
 
-It centralizes patient registration, test requests, result tracking, and dashboard analytics into one web-based platform, improving efficiency and traceability.
+### 🔥 Features
+- Role-based access control (admin vs staff)
+- Patient management (search, validation, CRUD)
+- Test request workflow with status tracking
+- Result entry and PDF report generation
+- Audit logs for tracking system activity
+- Real-time dashboard with analytics
 
+### 🌐 Live Demo
+https://smartlab-manager-1.onrender.com/
+x
 ## Features
 - Patient registration
 - Test request management
