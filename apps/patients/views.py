@@ -43,6 +43,9 @@ def patient_detail(request, pk):
 
 
 def patient_update(request, pk):
+    if not request.user.is_superuser:
+        return HttpResponseForbidden("You are not allowed to edit patients.")
+
     patient = get_object_or_404(Patient, pk=pk)
 
     if request.method == 'POST':

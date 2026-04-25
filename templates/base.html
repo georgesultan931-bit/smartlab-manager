@@ -15,9 +15,19 @@
         <a class="navbar-brand fw-bold" href="/dashboard/">SmartLab Manager</a>
 
         <div class="d-flex gap-2">
+
+            <a href="/dashboard/" class="btn btn-light btn-sm">Dashboard</a>
+
             <a href="/patients/" class="btn btn-light btn-sm">Patients</a>
+
             <a href="/tests/" class="btn btn-success btn-sm">Tests</a>
+
+            {% if request.user.is_superuser %}
+            <a href="/admin/" class="btn btn-warning btn-sm">Admin</a>
+            {% endif %}
+
             <a href="/logout/" class="btn btn-danger btn-sm">Logout</a>
+
         </div>
     </div>
 </nav>
