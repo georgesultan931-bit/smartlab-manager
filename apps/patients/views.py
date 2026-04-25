@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
@@ -5,6 +6,10 @@ from django.db.models import Q
 
 from .models import Patient
 from .forms import PatientForm
+
+
+def can_manage_patients(user):
+    return user.is_superuser or user.role == 'admin' or user.role == 'receptionist'
 
 
 def patient_list(request):
@@ -25,6 +30,9 @@ def patient_list(request):
 
 
 def patient_create(request):
+    if not can_manage_patients(request.user):
+        return HttpResponseForbidden("You are not allowed to add patients.")
+
     if request.method == 'POST':
         form = PatientForm(request.POST)
         if form.is_valid():
@@ -43,7 +51,7 @@ def patient_detail(request, pk):
 
 
 def patient_update(request, pk):
-    if not request.user.is_superuser:
+    if not can_manage_patients(request.user):
         return HttpResponseForbidden("You are not allowed to edit patients.")
 
     patient = get_object_or_404(Patient, pk=pk)
@@ -61,8 +69,8 @@ def patient_update(request, pk):
 
 
 def patient_delete(request, pk):
-    if not request.user.is_superuser:
-        return HttpResponseForbidden("You are not allowed to delete patients.")
+    if not request.user.is_superuser and request.user.role != 'admin':
+        return HttpResponseForbidden("Only admin can delete patients.")
 
     patient = get_object_or_404(Patient, pk=pk)
 

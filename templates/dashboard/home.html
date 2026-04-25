@@ -9,74 +9,29 @@
     </div>
 
     <div class="d-flex gap-2">
+        {% if request.user.is_superuser or request.user.role == 'admin' or request.user.role == 'receptionist' %}
         <a href="{% url 'patients:create' %}" class="btn btn-primary">+ Add Patient</a>
+        {% endif %}
+
+        {% if request.user.is_superuser or request.user.role == 'admin' or request.user.role == 'receptionist' %}
         <a href="{% url 'tests:create' %}" class="btn btn-success">+ New Test</a>
+        {% endif %}
     </div>
 </div>
 
-<!-- STATS -->
 <div class="row g-4 mb-4">
-    <div class="col-md-6 col-xl-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="text-muted mb-2">Total Patients</p>
-                <h2 class="fw-bold">{{ total_patients|default:0 }}</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-xl-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="text-muted mb-2">Test Requests</p>
-                <h2 class="fw-bold">{{ total_requests|default:0 }}</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-xl-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="text-muted mb-2">Pending Tests</p>
-                <h2 class="fw-bold text-warning">{{ pending_tests|default:0 }}</h2>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-xl-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="text-muted mb-2">Completed Tests</p>
-                <h2 class="fw-bold text-success">{{ completed_tests|default:0 }}</h2>
-            </div>
-        </div>
-    </div>
+    <div class="col-md-6 col-xl-3"><div class="card shadow-sm"><div class="card-body"><p class="text-muted mb-2">Total Patients</p><h2 class="fw-bold">{{ total_patients|default:0 }}</h2></div></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card shadow-sm"><div class="card-body"><p class="text-muted mb-2">Test Requests</p><h2 class="fw-bold">{{ total_requests|default:0 }}</h2></div></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card shadow-sm"><div class="card-body"><p class="text-muted mb-2">Pending Tests</p><h2 class="fw-bold text-warning">{{ pending_tests|default:0 }}</h2></div></div></div>
+    <div class="col-md-6 col-xl-3"><div class="card shadow-sm"><div class="card-body"><p class="text-muted mb-2">Completed Tests</p><h2 class="fw-bold text-success">{{ completed_tests|default:0 }}</h2></div></div></div>
 </div>
 
-<!-- TODAY -->
 <div class="row g-4 mb-4">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="text-muted mb-2">Today’s Registrations</p>
-                <h3 class="fw-bold">{{ today_registrations|default:0 }}</h3>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <p class="text-muted mb-2">Today’s Results</p>
-                <h3 class="fw-bold">{{ today_results|default:0 }}</h3>
-            </div>
-        </div>
-    </div>
+    <div class="col-md-6"><div class="card shadow-sm"><div class="card-body"><p class="text-muted mb-2">Today’s Registrations</p><h3 class="fw-bold">{{ today_registrations|default:0 }}</h3></div></div></div>
+    <div class="col-md-6"><div class="card shadow-sm"><div class="card-body"><p class="text-muted mb-2">Today’s Results</p><h3 class="fw-bold">{{ today_results|default:0 }}</h3></div></div></div>
 </div>
 
 <div class="row g-4">
-
-    <!-- RECENT REQUESTS -->
     <div class="col-lg-8">
         <div class="card shadow-sm">
             <div class="card-header bg-white">
@@ -100,43 +55,33 @@
                             <td>{{ item.test_type.name }}</td>
                             <td>
                                 {% if item.status == 'completed' %}
-                                    <span class="badge bg-success">Completed</span>
+                                <span class="badge bg-success">Completed</span>
                                 {% elif item.status == 'in_progress' %}
-                                    <span class="badge bg-info text-dark">In Progress</span>
+                                <span class="badge bg-info text-dark">In Progress</span>
                                 {% else %}
-                                    <span class="badge bg-warning text-dark">Pending</span>
+                                <span class="badge bg-warning text-dark">Pending</span>
                                 {% endif %}
                             </td>
                             <td>{{ item.assigned_to|default:"-" }}</td>
                         </tr>
                         {% empty %}
-                        <tr>
-                            <td colspan="4" class="text-center text-muted py-4">
-                                No recent requests found.
-                            </td>
-                        </tr>
+                        <tr><td colspan="4" class="text-center text-muted py-4">No recent requests found.</td></tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
 
             <div class="card-footer bg-white">
-                <a href="{% url 'tests:list' %}" class="btn btn-sm btn-outline-primary">
-                    View All Requests
-                </a>
+                <a href="{% url 'tests:list' %}" class="btn btn-sm btn-outline-primary">View All Requests</a>
             </div>
         </div>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="col-lg-4">
-
-        <!-- TOP TEST TYPES -->
         <div class="card shadow-sm mb-4">
             <div class="card-header bg-white">
                 <h5 class="fw-bold mb-0">Top Test Types</h5>
             </div>
-
             <div class="card-body">
                 {% for item in test_breakdown %}
                 <div class="d-flex justify-content-between align-items-center border-bottom py-2">
@@ -149,40 +94,24 @@
             </div>
         </div>
 
-        <!-- QUICK ACTIONS -->
         <div class="card shadow-sm">
             <div class="card-body">
                 <h5 class="fw-bold mb-3">Quick Actions</h5>
 
                 <div class="row g-2">
-                    <div class="col-6">
-                        <a href="{% url 'patients:list' %}" class="btn btn-outline-primary w-100">
-                            👤 Patients
-                        </a>
-                    </div>
+                    <div class="col-6"><a href="{% url 'patients:list' %}" class="btn btn-outline-primary w-100">👤 Patients</a></div>
+                    <div class="col-6"><a href="{% url 'tests:list' %}" class="btn btn-outline-success w-100">🧪 Requests</a></div>
 
-                    <div class="col-6">
-                        <a href="{% url 'tests:list' %}" class="btn btn-outline-success w-100">
-                            🧪 Requests
-                        </a>
-                    </div>
+                    {% if request.user.is_superuser or request.user.role == 'admin' or request.user.role == 'lab_tech' %}
+                    <div class="col-6"><a href="{% url 'results:list' %}" class="btn btn-outline-dark w-100">📄 Results</a></div>
+                    {% endif %}
 
-                    <div class="col-6">
-                        <a href="{% url 'results:list' %}" class="btn btn-outline-dark w-100">
-                            📄 Results
-                        </a>
-                    </div>
-
-                    <div class="col-6">
-                        <a href="{% url 'auditlogs:list' %}" class="btn btn-outline-secondary w-100">
-                            📊 Logs
-                        </a>
-                    </div>
+                    {% if request.user.is_superuser or request.user.role == 'admin' %}
+                    <div class="col-6"><a href="{% url 'auditlogs:list' %}" class="btn btn-outline-secondary w-100">📊 Logs</a></div>
+                    {% endif %}
                 </div>
-
             </div>
         </div>
-
     </div>
 </div>
 

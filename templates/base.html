@@ -62,15 +62,23 @@
 
         <div class="d-flex gap-2 flex-wrap">
             <a href="/dashboard/" class="btn btn-light btn-sm">Dashboard</a>
+
             <a href="/patients/" class="btn btn-light btn-sm">Patients</a>
+
             <a href="/tests/" class="btn btn-success btn-sm">Tests</a>
 
             <a href="{% url 'accounts:send_otp' %}" class="btn btn-warning btn-sm">
                 Verify Phone
             </a>
 
-            {% if request.user.is_superuser %}
+            {% if request.user.is_superuser or request.user.role == 'admin' %}
             <a href="/admin/" class="btn btn-warning btn-sm">Admin</a>
+            {% endif %}
+
+            {% if request.user.is_authenticated %}
+            <span class="btn btn-outline-light btn-sm disabled">
+                {{ request.user.username }} - {{ request.user.role }}
+            </span>
             {% endif %}
 
             <a href="{% url 'accounts:logout' %}" class="btn btn-danger btn-sm">Logout</a>
