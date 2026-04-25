@@ -1,6 +1,14 @@
 # SmartLab ManagerS
 
+## Overview
+
+SmartLab — Laboratory Management & Reporting System is a full-stack Django web application for managing lab workflows, including patient registration, test requests, result processing, PDF reporting, audit logs, and dashboard analytics.
+
 ## Live Demo
+https://smartlab-manager-1.onrender.com/
+
+## GitHub
+https://github.com/georgesultan931-bit/smartlab-manager## Live Demo
 https://smartlab-manager-1.onrender.com
 
 ## Overview
